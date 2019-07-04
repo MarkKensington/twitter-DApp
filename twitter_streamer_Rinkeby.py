@@ -8,6 +8,7 @@ import re
 
 import twitter_credentials
 from web3 import Web3, HTTPProvider
+from web3.middleware import geth_poa_middleware
 
 '''
 TWITTER AUTHENTICATOR
@@ -68,10 +69,16 @@ class TwitterListener(StreamListener):
     # Method who takes the data (listening to tweets) and interact with Smart Contract
     def on_data(self, raw_data):
         # TwitterStreamer.sol Smart Contract address which was provided during `truffle deploy`
+        # contract_address = '0x2b7e08c9aCE28fc5768f2C37BD4f225B21408AfA'  <-- this already exists on Rinkeby
         contract_address = '<FILL IN CONTRACT ADDRESS SHOWN AFTER TRUFFLE DEPLOY>'
 
-        # Address which receives the TST2 Token - Only use if you want to hard-code recipient
+        # Address which created the contract and sends the Tokens
+        sender_address = '<FILL IN SENDER ADDRESS>'
+        sender_private_key = '<FILL IN SENDER PRIVATE KEY>'
+
+        # Address which receives the Token - Only use if you want to hard-code recipient
         # receiver_address = '<FILL IN RECIPIENT ADDRESS>'
+
 
         try:
             json_load = json.loads(raw_data)
@@ -90,23 +97,38 @@ class TwitterListener(StreamListener):
             with open("./contractJSONABI.json") as f:
                 info_json = json.load(f)
             abi = info_json
-            w3 = Web3(HTTPProvider("http://127.0.0.1:8545"))
+            w3 = Web3(HTTPProvider('https://rinkeby.infura.io/v3/<YOUR-PROJECT-ID>'))
+            w3.middleware_stack.inject(geth_poa_middleware, layer=0)
             free_tokkens_instance = w3.eth.contract(
                 address=contract_address, abi=abi,)
+            
+            '''
+            set sender account
+            '''
 
-            '''
-            set sender account (Account from ganache). 
-            Account [0] is the private key of the Smart Contract owner. Truffle deploy uses ganache-cli
-            ganache-cli has the private key implmented in the node. Default key: [0]
-            '''
-            w3.eth.defaultAccount = w3.eth.accounts[0]
+            w3.eth.defaultAccount = sender_address
 
             '''send message to contract. If it is not working with recevier_address try
             tx_hash = free_tokkens_instance.functions.mintToken('0x9b26a3C40d32BD9e40266711Fd89ea9387340E90').transact()
             '''
             print('Get some Tokens...')
-            tx_hash = free_tokkens_instance.functions.mintToken(
-                receiver_address).transact()
+            
+            # Prepare the transaction
+            nonce = w3.eth.getTransactionCount(sender_address)
+            tx = {
+                'from': sender_address,
+                'chainId': 4,
+                'gas': 70000,
+                'gasPrice': w3.toWei('1', 'gwei'),
+                'nonce': nonce,
+            }
+            contract_tx = free_tokkens_instance.functions.mintToken(receiver_address).buildTransaction(tx)
+
+            #Sign the Transaction
+            signed_tx = w3.eth.account.signTransaction(contract_tx, private_key = sender_private_key)
+            
+            # Send the Transaction
+            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
             # Wait for transaction to be mined...
             w3.eth.waitForTransactionReceipt(tx_hash)

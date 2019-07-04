@@ -1,7 +1,7 @@
 {
   "name": "twitter-DApp",
   "version": "1.0.0",
-  "description": "CLI and smart contract backend",
+  "description": "Python Twitter Listener with Ethereum smart contract backend",
   "directories": {
     "test": "test"
   },
@@ -13,7 +13,7 @@
     "flat": "truffle-flattener contracts/TwitterStreamer.sol > ./TwitterStreamerFlat.sol",
     "serve": "http-server frontend"
   },
-  "author": "0xjacobb",
+  "author": "0xjacobb & MarkKensington",
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.11.1",

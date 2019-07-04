@@ -1,9 +1,8 @@
-/* 
-#####  Required for Rinkeby deployment. It is actually outcommented because of no need ###
+
+// ##### Only required for Rinkeby deployment ####
 var HDWalletProvider = require("truffle-hdwallet-provider");
 var privateKey = "<your private key here>";
-var rinkebyEndpoint = "https://rinkeby.infura.io/v3/0cd25f13fa42452181039a22154c025a";
-*/
+var rinkebyEndpoint = "https://rinkeby.infura.io/v3/<YOUR-PROJECT-ID>";
 
 module.exports = {
   networks: {

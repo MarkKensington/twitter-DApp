@@ -1,15 +1,15 @@
 pragma solidity ^0.5.0;
 
 /**
- * @title The TwitterStreamer Token Contract
+ * @title The TwitterStreamerToken2 Contract
  *
- * @dev The TST Token is an ERC20 Token
+ * @dev The TST2 Token is an ERC20 Token
  * @dev https://github.com/ethereum/EIPs/issues/20
  */
 contract TwitterStreamer {
 
-    string public constant symbol = "TST"; 
-    string public constant name = "Twitter Streamer Token";
+    string public constant symbol = "TST2"; 
+    string public constant name = "Twitter Streamer Token 2";
     uint8 public constant decimals = 0;
     
     uint256 public _totalSupply = 0;

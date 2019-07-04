@@ -7,7 +7,8 @@ import json
 import re
 
 import twitter_credentials
-from web3 import Web3, HTTPProvider
+from web3 import Web3, IPCProvider
+from web3.middleware import geth_poa_middleware
 
 '''
 TWITTER AUTHENTICATOR
@@ -68,9 +69,10 @@ class TwitterListener(StreamListener):
     # Method who takes the data (listening to tweets) and interact with Smart Contract
     def on_data(self, raw_data):
         # TwitterStreamer.sol Smart Contract address which was provided during `truffle deploy`
+        # contract_address = '0x688611e5a8E9BC1AEf0a0C9c334e07aA325Cfe29' <-- this already exists on Swisscom POA
         contract_address = '<FILL IN CONTRACT ADDRESS SHOWN AFTER TRUFFLE DEPLOY>'
 
-        # Address which receives the TST2 Token - Only use if you want to hard-code recipient
+        # Address which receives the Token - Only use if you want to hard-code recipient
         # receiver_address = '<FILL IN RECIPIENT ADDRESS>'
 
         try:
@@ -90,7 +92,8 @@ class TwitterListener(StreamListener):
             with open("./contractJSONABI.json") as f:
                 info_json = json.load(f)
             abi = info_json
-            w3 = Web3(HTTPProvider("http://127.0.0.1:8545"))
+            w3 = Web3(IPCProvider('~/poa/geth.ipc'))
+            w3.middleware_stack.inject(geth_poa_middleware, layer=0)
             free_tokkens_instance = w3.eth.contract(
                 address=contract_address, abi=abi,)
 
