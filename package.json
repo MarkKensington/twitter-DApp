@@ -10,8 +10,12 @@
     "coverage": "solidity-coverage",
     "lint": "solhint contracts/*",
     "build": "truffle compile",
-    "flat": "truffle-flattener contracts/TwitterStreamer.sol > ./TwitterStreamerFlat.sol",
+    "flat": "truffle-flattener contracts/TwitterStreamer.sol > contracts/TwitterStreamerFlat.sol",
     "serve": "http-server frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarkKensington/twitter-DApp.git"
   },
   "author": "0xjacobb & MarkKensington",
   "license": "MIT",

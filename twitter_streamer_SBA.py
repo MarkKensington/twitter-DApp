@@ -66,10 +66,10 @@ class TwitterListener(StreamListener):
         self.fetched_tweets_filename = fetched_tweets_filename
         self.i = 0
 
-    # Method who takes the data (listening to tweets) and interact with Smart Contract
+    # Method that takes the data (listening to tweets) and interacts with the Smart Contract
     def on_data(self, raw_data):
         # TwitterStreamer.sol Smart Contract address which was provided during `truffle deploy`
-        # contract_address = '0x688611e5a8E9BC1AEf0a0C9c334e07aA325Cfe29' <-- this already exists on Swisscom POA
+        # contract_address = '0x042777E1CBa767dE166b4206F95500dDE19055d2' <-- this already exists on Swisscom POA
         contract_address = '<FILL IN CONTRACT ADDRESS SHOWN AFTER TRUFFLE DEPLOY>'
 
         # Address which receives the Token - Only use if you want to hard-code recipient
@@ -104,11 +104,10 @@ class TwitterListener(StreamListener):
             '''
             w3.eth.defaultAccount = w3.eth.accounts[0]
 
-            '''send message to contract. If it is not working with recevier_address try
-            tx_hash = free_tokkens_instance.functions.mintToken('0x9b26a3C40d32BD9e40266711Fd89ea9387340E90').transact()
+            '''send message to contract.
             '''
             print('Get some Tokens...')
-            tx_hash = free_tokkens_instance.functions.mintToken(
+            tx_hash = free_tokkens_instance.functions.tweetToken(
                 receiver_address).transact()
 
             # Wait for transaction to be mined...
@@ -116,8 +115,6 @@ class TwitterListener(StreamListener):
 
             '''
             Read out the balance of the recipient
-            If it is not working with recevier_address try
-            print('Balance: {}'.format(free_tokkens_instance.functions.balanceOf('0x9b26a3C40d32BD9e40266711Fd89ea9387340E90').call()))
             '''
             print('Balance: {}'.format(
                 free_tokkens_instance.functions.balanceOf(receiver_address).call()))

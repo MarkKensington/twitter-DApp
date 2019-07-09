@@ -5,24 +5,28 @@ pragma solidity ^0.5.0;
  *
  * @dev The TST2 Token is an ERC20 Token
  * @dev https://github.com/ethereum/EIPs/issues/20
+ * 
+ * NOTE: This has now been updated to use the OpenZeppelin Libraries: https://openzeppelin.org/
+ * 
  */
-contract TwitterStreamer {
 
-    string public constant symbol = "TST2"; 
-    string public constant name = "Twitter Streamer Token 2";
-    uint8 public constant decimals = 0;
-    
-    uint256 public _totalSupply = 0;
-    uint256 public _valueSend = 10;
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-    mapping(address => uint256) balances;
-    mapping(address => mapping(address => uint256)) allowed;
+contract TwitterStreamer is ERC20, ERC20Detailed, ERC20Mintable, Ownable {
 
-    event Mint(address indexed to, uint256 value);
-    event Transfer(address indexed abc, address indexed to, uint256 value);
+    string private tokSymbol = "TST2"; 
+    string private tokName = "Twitter Streamer Token 2";
+    uint8 private tokDecimals = 0;
+    uint256 private tokInitialSupply = 10000;
+    uint256 public tweetValue = 10;  // Number of tokens sent per tweet
 
-    constructor() public {
-
+    constructor()
+        ERC20Detailed (tokName, tokSymbol, tokDecimals)
+    public {
+        _mint(msg.sender, tokInitialSupply);
     }
 
     /**
@@ -32,47 +36,15 @@ contract TwitterStreamer {
         revert("Default method not allowed");
     }
 
-    function totalSupply() public view returns (uint256) {
-        return _totalSupply;
-    }
-
-    function balanceOf(address _who) public view returns (uint256) {
-        return balances[_who];
-    }
-    
-    function transfer(address _to, uint256 _value) public returns (bool) {
-        require (balances[msg.sender] > 0, "not enough tokens");
-
-        balances[msg.sender] -= _value;
-        balances[_to] += _value;
-
-        emit Transfer(msg.sender, _to, _value);
-        
+    function setTweetValue(uint256 newValue) public onlyOwner returns (bool) {
+        tweetValue = newValue;
         return true;
     }
 
-    function mintToken(address _to) public returns (bool) {
-        //require (balances[msg.sender] > 0, "not enough tokens");
-
-        // balances[msg.sender] -= _value;
-        balances[_to] += _valueSend;
-        _totalSupply += _valueSend;
-
-        emit Mint(_to, _valueSend);
-        
+    function tweetToken(address recipient) public onlyOwner returns (bool) {
+        require (balanceOf(msg.sender) > 0, "Need to mint more tokens");
+        _transfer(msg.sender, recipient, tweetValue);
         return true;
     }
 
-    /* ==== Advanced topic from here ====
-    function approve(address _spender, uint256 _value) public returns (bool) {
-        return false;       
-    }
-
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
-        return false;   
-    }
-
-    function allowance(address _owner, address _spender) public view returns (uint256) {
-        return 0;
-    } */
 }

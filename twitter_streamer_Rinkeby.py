@@ -69,7 +69,7 @@ class TwitterListener(StreamListener):
     # Method who takes the data (listening to tweets) and interact with Smart Contract
     def on_data(self, raw_data):
         # TwitterStreamer.sol Smart Contract address which was provided during `truffle deploy`
-        # contract_address = '0x2b7e08c9aCE28fc5768f2C37BD4f225B21408AfA'  <-- this already exists on Rinkeby
+        # contract_address = '0x4B0E6F935F6e8CDa37254D72e8335f3351000C68'  <-- this already exists on Rinkeby
         contract_address = '<FILL IN CONTRACT ADDRESS SHOWN AFTER TRUFFLE DEPLOY>'
 
         # Address which created the contract and sends the Tokens
@@ -108,8 +108,7 @@ class TwitterListener(StreamListener):
 
             w3.eth.defaultAccount = sender_address
 
-            '''send message to contract. If it is not working with recevier_address try
-            tx_hash = free_tokkens_instance.functions.mintToken('0x9b26a3C40d32BD9e40266711Fd89ea9387340E90').transact()
+            '''send message to contract.
             '''
             print('Get some Tokens...')
             
@@ -122,7 +121,7 @@ class TwitterListener(StreamListener):
                 'gasPrice': w3.toWei('1', 'gwei'),
                 'nonce': nonce,
             }
-            contract_tx = free_tokkens_instance.functions.mintToken(receiver_address).buildTransaction(tx)
+            contract_tx = free_tokkens_instance.functions.tweetToken(receiver_address).buildTransaction(tx)
 
             #Sign the Transaction
             signed_tx = w3.eth.account.signTransaction(contract_tx, private_key = sender_private_key)
@@ -135,8 +134,6 @@ class TwitterListener(StreamListener):
 
             '''
             Read out the balance of the recipient
-            If it is not working with recevier_address try
-            print('Balance: {}'.format(free_tokkens_instance.functions.balanceOf('0x9b26a3C40d32BD9e40266711Fd89ea9387340E90').call()))
             '''
             print('Balance: {}'.format(
                 free_tokkens_instance.functions.balanceOf(receiver_address).call()))

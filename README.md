@@ -5,8 +5,11 @@ Working
 
 ## Overview
 
-This project is a very basic Ethereum DApp, which listen for Tweets which contains a specific hashtag (**#giveMeTST2Token**) - "give me twitter streaming token 2". If such a Tweet appears, the application sends TST2 tokens from the ERC20 Smart Contract address to a specific address. This code was written during the Swisscom Blockchain Academy Seminar "Ethereum for Developer", May 2019.
-**Update July 2019**: Is now working on Rinkeby and has been updated so that if the recipient includes their Ethereum address in the tweet then the DApp will send the tokens to that address
+This project is a very basic Ethereum DApp, which listen for Tweets which contains a specific hashtag (**#giveMeTST2Token**) - "give me twitter streaming token 2". If such a Tweet appears, the application sends TST2 tokens from the ERC20 Smart Contract Owners address to a specific address. This code was initially written during the Swisscom Blockchain Academy Seminar "Ethereum for Developer", May 2019.
+
+## Updates
+- **4 July 2019**: Is now working on Rinkeby and has been updated so that if the recipient includes their Ethereum address in the tweet then the DApp will send the tokens to that address
+- **9 July 2019**: Complete re-write of TwitterStreamer Smart Contract to use OpenZeppelin Libraries, including Minter Roles and Owner-controlled Token issuance and to just transfer tokens rather than mint each time
 
 **The code now runs on a local testnet, on the Swisscom Blockchain Academy POA Network & on Rinkeby** 
 
@@ -122,11 +125,12 @@ NOTE: This requires you have already had a node running on your local PC
 
 - add functionality to set the recipient address in the tweet itself (**Now Implemented**)
 - make code running on Rinkeby test net. For that you need to specify the private key manually in the code (**Now Implemented**)
-- try to get this to work through MetaMask rather than hardcoding the sender address and sender private key
+- add some tests
 
 ## Credits
 
-- [0xjacobb] (https://github.com/0xjacobb)
+- [0xjacobb](https://github.com/0xjacobb)
 - [Swisscom Blockchain Academy for the skeleton](https://github.com/swisscom-blockchain/dapp-skeleton)   
 - [Setting Up Ethereum Development Environment on MacOS](https://medium.com/coinmonks/setting-up-ethereum-development-environment-on-macos-22c96a136ac4)   
 - [Guide for deploying Smart Contracts with Truffle and Ropsten](https://medium.com/coinmonks/5-minute-guide-to-deploying-smart-contracts-with-truffle-and-ropsten-b3e30d5ee1e)
+- [OpenZeppelin libraries for building Smart Contracts](https://openzeppelin.org/)
