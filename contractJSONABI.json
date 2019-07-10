@@ -399,6 +399,18 @@
 		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": false,
+				"name": "tweetValue",
+				"type": "uint256"
+			}
+		],
+		"name": "TweetValueSet",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
 				"indexed": true,
 				"name": "previousOwner",
 				"type": "address"

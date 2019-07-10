@@ -65,12 +65,13 @@ class TwitterListener(StreamListener):
     def __init__(self, fetched_tweets_filename):
         self.fetched_tweets_filename = fetched_tweets_filename
         self.i = 0
-        print("--------- STARTING TWITTER LISTENER -----------\n")
+        print("--------- STARTING TWITTER LISTENER -----------")
+        print("Listening for #" + hash_tag_list[0] + ":\n")
 
     # Method that takes the data (listening to tweets) and interacts with the Smart Contract
     def on_data(self, raw_data):
         # TwitterStreamer.sol Smart Contract address which was provided during `truffle deploy`
-        # contract_address = '0x042777E1CBa767dE166b4206F95500dDE19055d2' <-- this already exists on Swisscom POA
+        # contract_address = '0x244C6C98918C5c1D698334909fA77e76358c7857' <-- this already exists on Swisscom POA
         contract_address = '<FILL IN CONTRACT ADDRESS SHOWN AFTER TRUFFLE DEPLOY>'
 
         # Address which receives the Token - Only use if you want to hard-code recipient

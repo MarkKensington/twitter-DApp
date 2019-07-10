@@ -10,6 +10,7 @@ This project is a very basic Ethereum DApp, which listen for Tweets which contai
 ## Updates
 - **4 July 2019**: Is now working on Rinkeby and has been updated so that if the recipient includes their Ethereum address in the tweet then the DApp will send the tokens to that address
 - **9 July 2019**: Complete re-write of TwitterStreamer Smart Contract to use OpenZeppelin Libraries, including Minter Roles and Owner-controlled Token issuance and to just transfer tokens rather than mint each time
+- **10 July 2019**: Added tests (coverage confirmed all functions are covered) and updated contract as required
 
 **The code now runs on a local testnet, on the Swisscom Blockchain Academy POA Network & on Rinkeby** 
 
@@ -129,7 +130,7 @@ NOTE: This requires you have already had a node running on your local PC
 
 - add functionality to set the recipient address in the tweet itself (**Now Implemented**)
 - make code running on Rinkeby test net. For that you need to specify the private key manually in the code (**Now Implemented**)
-- add some tests
+- add some tests (**Now Implemented**)
 
 ## Credits
 

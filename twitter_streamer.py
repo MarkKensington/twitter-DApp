@@ -64,7 +64,8 @@ class TwitterListener(StreamListener):
     def __init__(self, fetched_tweets_filename):
         self.fetched_tweets_filename = fetched_tweets_filename
         self.i = 0
-        print("--------- STARTING TWITTER LISTENER -----------\n")
+        print("--------- STARTING TWITTER LISTENER -----------")
+        print("Listening for #" + hash_tag_list[0] + ":\n")
 
     # Method that takes the data (listening to tweets) and interacts with the Smart Contract
     def on_data(self, raw_data):
