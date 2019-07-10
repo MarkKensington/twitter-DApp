@@ -19,6 +19,7 @@ Following tools are required:
 
 - Twitter Developer Account (You need a access token for the Twitter API)
 - Truffle
+- Homebrew (Mac packaging manager)
 - NPM
 - Python with various libraries
 - If you want to deploy via Rinkeby then you need access to a Rinkeby Node, such as via Infura
@@ -47,19 +48,22 @@ twitter-DApp
 
 ## Step-by-Step installation guide for Mac
 
+One of the easiest way is to use [Homebrew](https://brew.sh/index_de) for installation of Python3, NPM etc. Run this in your Terminal if you need to install Homebrew:   
+```/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
+
 1. change `twitter_credentials_TODO.py` to `twitter_credentials.py` and fill in your own keys from the twitter developer account
 2. Install **npm** (for mac: `brew install node`). Check if installation was successfull with: `npm -v`. If you already have **npm** [Update NPM](https://docs.npmjs.com/updating-packages-downloaded-from-the-registry) `npm update` or `npm update --save`
 3. [Download and install Ganache](https://www.trufflesuite.com/docs/ganache/quickstart) or `npm install -g ganache-cli`   
 4. Install **Truffle**: `npm install -g truffle`
-5. Install xcode developer tools: `xcode-select --install` maybe you need addiotnal configs according to [Doc](https://apple.stackexchange.com/questions/254380/why-am-i-getting-an-invalid-active-developer-path-when-attempting-to-use-git-a) and [Doc](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/)
-5. Install **virtualvenv** for isolated Python environments:```pip install virtualenv```   
-6. Create isolated Python environment: ```virtualenv venv```
+5. [OPTIONAL] Install xcode developer tools separatly. If you have ```homebrew```installed on your mac, ```xcode command line tools``` are already installed. `xcode-select --install` maybe you need additional configs according to [Doc](https://apple.stackexchange.com/questions/254380/why-am-i-getting-an-invalid-active-developer-path-when-attempting-to-use-git-a) and [Doc](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/)
+5. Install **virtualvenv** for isolated Python environments:```pip3 install virtualenv```   
+6. Create isolated Python environment: first ```cd``` into project, second```virtualenv venv```
 7. Activate virtual environment: ```source venv/bin/activate```   
-8. Install dependencies: ```pip install -r requirements.txt``` 
+8. Install dependencies: ```pip3 install -r requirements.txt``` 
 
-If you have made additional installations with `pip` run `pip freeze > requirements.txt` to rebuild requirements file for installtion dependencies.
+If you have made additional installations with `pip3` run `pip3 freeze > requirements.txt` to rebuild requirements file for installtion dependencies.
 
-To stop the isolated `(ven)`environment use command: `deactivate`
+To stop the isolated `(venv)`environment use command: `deactivate`
 
 ## Step-by-Step installation guide for PC running Lubuntu
 
@@ -67,22 +71,22 @@ To stop the isolated `(ven)`environment use command: `deactivate`
 2.  Install required **npm** modules using `npm install`
 3.  [Download and install Ganache](https://www.trufflesuite.com/docs/ganache/quickstart) or `npm install -g ganache-cli`   
 4.  Install **Truffle**: `npm install -g truffle`
-5.  Install **pip**: `sudo apt install python-pip`
-6.  Install **virtualvenv** for isolated Python environments:`pip install virtualenv`   
+5.  Install **pip**: `sudo apt install python-pip3`
+6.  Install **virtualvenv** for isolated Python environments:`pip3 install virtualenv`   
 7.  Create isolated Python environment: `virtualenv venv`
 8.  Activate virtual environment: `source venv/bin/activate`
 9.  Install **pandoc**: `sudo apt install pandoc`
-10. Install dependencies: `pip install -r requirements.txt`. If you have made additional installations with `pip` run `pip freeze > requirements.txt` to rebuild requirements file for installtion dependencies.
+10. Install dependencies: `pip3 install -r requirements.txt`. If you have made additional installations with `pip3` run `pip3 freeze > requirements.txt` to rebuild requirements file for installtion dependencies.
 11. Copy `twitter_credentials_TODO.py` to `twitter_credentials.py` and fill in your own keys from the twitter developer account
 
-To stop the isolated `(ven)`environment use command: `deactivate`
+To stop the isolated `(venv)`environment use command: `deactivate`
 
 ## Run the code on Ganache
 
 1. Open command line tool (e.g Terminal for Mac)
 2. `cd` into project folder
 3. Start local testnet: `ganache -cli` (include `-m "mnemonic"` which can then be used to set-up MetaMask to allow interaction directly with Ganache)
-4. Open a new Terminal tab and deploy Smart Contract on the local testnet: `truffle deploy`
+4. Open a new Terminal tab and `cd` into project folder and deploy Smart Contract on the local testnet: `truffle deploy`
    [OPTIONAL] Retrieve the addresses from deployed contracts if needed with: `truffle networks`
 5. Change the `contract_address` in method `on_data(self, raw_data)`from `twitter_streamer.py` with address provided after `truffle deploy` of the Smart Contract
 6. If you want to hard-code the receiver address rather than extract it from the tweet you will need to change the `receiver_address` in method `on_data(self, raw_data)`from `twitter_streamer.py` with your own (Metamask) address and then comment out the second `receiver_address` assignment in the `try:` section
@@ -101,7 +105,7 @@ NOTE: This requires you have already had a node running on your local PC
 1. Open command line terminal to the Swisscom POA Node directory and start the Node using `geth --datadir ./ --rpc --rpcaddr "0.0.0.0" --rpcapi "admin,eth,net,personal,web3,debug"`
 2. Open another terminal to the Swisscom POA Node, run `geth attach --datadir ./` and then use `admin.addPeer("enode://<address>")` with the correct `address` to connect. Once it has synched check connectivity with MetaMask
 3. Unlock the main node account using `personal.unlockAccount(eth.accounts[0])`
-4. Open a new terminal and change to the twitter-DApp project folder and deploy the Smart Contract on the Swisscom Blockchain using: `truffle deploy`
+4. Open a new terminal and `cd` into the twitter-DApp project folder and deploy the Smart Contract on the Swisscom Blockchain using: `truffle deploy`
 5. Change the `contract_address` in method `on_data(self, raw_data)`from `twitter_streamer_SBA.py` with address provided after `truffle deploy` of the Smart Contract
 6. If you want to hard-code the receiver address rather than extract it from the tweet you will need to change the `receiver_address` in method `on_data(self, raw_data)`from `twitter_streamer.py` with your own (Metamask) address and then comment out the second `receiver_address` assignment in the `try:` section
 7. If necessary, change the `Web3(IPCProvider)` path in method `on_data(self, raw_data)`from `~/poa/geth.ipc` to the path of your running POA Node
@@ -112,7 +116,7 @@ NOTE: This requires you have already had a node running on your local PC
 
 1. Ensure you have an account on the Rinkeby Test Network loaded with some Ether. You will also need to connect to a Rinkeby Node. This DApp has been set-up using an Infura Rinkeby Node which requires a Project ID Code (see: https://infura.io/)
 2. Update `truffle-config.js` to add in the private key from your Rinkeby Account and the Project Code for Infura
-3. Open a new terminal and change to the twitter-DApp project folder and deploy the Smart Contract on to the Rinkeby Test Network using: `truffle deploy --network rinkeby`
+3. Open a new terminal and `cd` into the twitter-DApp project folder and deploy the Smart Contract on to the Rinkeby Test Network using: `truffle deploy --network rinkeby`
 4. Change the `contract_address` in method `on_data(self, raw_data)`from `twitter_streamer_Rinkeby.py` with address provided after `truffle deploy` of the Smart Contract
 5. Change the `sender_address` in method `on_data(self, raw_data)`from `twitter_streamer_Rinkeby.py` with address used to deploy the Smart Contract and also update the `sender_private_key`
 6. If you want to hard-code the receiver address rather than extract it from the tweet you will need to change the `receiver_address` in method `on_data(self, raw_data)`from `twitter_streamer.py` with your own (Metamask) address and then comment out the second `receiver_address` assignment in the `try:` section
