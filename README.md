@@ -1,7 +1,7 @@
 # Twitter Ethereum DApp
 
 
-# NEED TO RUN AN NPM UPDATE TO UPDATE VARIOUS PACKAGES, INCLUDING decompress, handlebars, tree-kill, http-proxy & tar, and fix changes in requirements.txt
+## TODO NEED TO RUN AN NPM UPDATE TO UPDATE VARIOUS PACKAGES, INCLUDING decompress, handlebars, tree-kill, http-proxy & tar, and fix changes in requirements.txt - See Github Alerts
 
 ## Status
 Working
